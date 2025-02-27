@@ -1,5 +1,7 @@
-interface Shoppinglist {
+import { ShoppinglistIngredient } from "./ShoppinglistIngredient"
+
+export interface Shoppinglist {
     Id: Number,
     Name: string,
-    ShoppinglistIngredients: ShoppinglistIngredients[]
+    ShoppinglistIngredients: ShoppinglistIngredient[]
 }
