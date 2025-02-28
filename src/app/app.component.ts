@@ -1,13 +1,12 @@
 import { Component, inject, OnInit } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
-import { HomeComponent } from './home/home.component';
+import { RouterLink, RouterOutlet } from '@angular/router';
 import { ShoppinglistService } from './services/shoppinglist.service';
 import { Shoppinglist } from './models/Shoppinglist';
 import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, HomeComponent, CommonModule],
+  imports: [RouterOutlet, RouterLink, CommonModule],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
