@@ -3,11 +3,11 @@ import { Ingredient } from "./Ingredient"
 import { Measurement } from "../Enums/Measurement"
 
 export interface ShoppinglistIngredient {
-    Id: Number,
-    ShoppinglistId: Number,
-    IngredientId: Number,
-    Quantity: Number,
-    Measurement: Measurement,
-    Shoppinglist: Shoppinglist,
-    Ingredient: Ingredient
+    id: Number,
+    shoppinglistId: Number,
+    ingredientId: Number,
+    quantity: Number,
+    measurement: Measurement,
+    shoppinglist: Shoppinglist,
+    ingredient: Ingredient
 }

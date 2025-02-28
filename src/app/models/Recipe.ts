@@ -1,9 +1,9 @@
 import { RecipeIngredient } from "./RecipeIngredient"
 
 export interface Recipe {
-    Id: Number,
-    Name: string,
-    Servings: Number,
-    CookingInstructions: string,
-    RecipeIngredients: RecipeIngredient[]
+    id: number,
+    name: string,
+    servings: number,
+    cookingInstructions: string,
+    recipeIngredients: RecipeIngredient[]
 }

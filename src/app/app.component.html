@@ -1,35 +1,30 @@
+<nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="#">Recipes</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="#">Home</a>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Shoppinglists
+            </a>
+            <ul class="dropdown-menu">
+              <li *ngFor="let shoppinglist of shoppinglists">
+                <a class="dropdown-item" href="#">{{shoppinglist.name}}</a>
+            </li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
 
-<div class="text-center pb-5">
-    <h1 class="display-4">Recipes</h1>
-</div>
-
-<table class="table">
-    <thead>
-        <tr>
-            <th>Recipe</th>
-            <th>Add To Shoppinglist</th>
-            <th>Cooking Instructions</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td>Spice Cajun Chicken</td>
-            <td>
-                <form class="col" asp-action="AddToShoppinglist">
-                    <div class="dropdown">
-                        <button class="btn btn-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            Add To Shoppinglist
-                        </button>
-                        <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="#">New Shoppinglist</a></li>
-                            <li><a class="dropdown-item" href="#">Gilles</a></li>
-                        </ul>
-                    </div>
-                </form>
-            </td>
-            <td>
-                <a class="btn btn-primary col" href="#">Cooking Instructions</a>
-            </td>
-        </tr>
-    </tbody>
-</table>
+ <main>
+    <router-outlet></router-outlet>
+    <home></home>
+ </main>

@@ -1,0 +1,32 @@
+<table class="table">
+    <thead>
+        <tr>
+            <th>Recipe</th>
+            <th>Add To Shoppinglist</th>
+            <th>Cooking Instructions</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let recipe of recipes;">
+            <td>{{recipe.name}}</td>
+            <td>
+                <form class="col" asp-action="AddToShoppinglist">
+                    <div class="dropdown">
+                        <button class="btn btn-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Add To Shoppinglist
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="#">New Shoppinglist</a></li>
+                            <li *ngFor="let shoppinglist of shoppinglists">
+                                <a class="dropdown-item" href="#">{{shoppinglist.name}}</a>
+                            </li>
+                        </ul>
+                    </div>
+                </form>
+            </td>
+            <td>
+                <a class="btn btn-primary col" href="#">Cooking Instructions</a>
+            </td>
+        </tr>
+    </tbody>
+</table>

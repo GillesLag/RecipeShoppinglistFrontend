@@ -1,23 +1,25 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { RecipesService } from './services/recipes.service';
-import { Recipe } from './models/Recipe';
+import { HomeComponent } from './home/home.component';
+import { ShoppinglistService } from './services/shoppinglist.service';
+import { Shoppinglist } from './models/Shoppinglist';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet],
+  imports: [RouterOutlet, HomeComponent, CommonModule],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
+
 export class AppComponent implements OnInit {
-  recipeService = inject(RecipesService)
-  recipes: Recipe[] = [];
+  shoppinglistService = inject(ShoppinglistService)
+
+  shoppinglists: Shoppinglist[] = [];
 
   ngOnInit(): void {
-    this.recipeService.GetAllRecipes().subscribe(recipes => {
-      this.recipes = recipes;
-    });
+    this.shoppinglistService.GetAllShoppinglists().subscribe(shoppinglists => {
+      this.shoppinglists = shoppinglists
+    })
   }
-  
-  
 }
