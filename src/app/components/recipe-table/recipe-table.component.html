@@ -18,7 +18,7 @@
                         <ul class="dropdown-menu">
                             <li><a class="dropdown-item" href="#">New Shoppinglist</a></li>
                             <li *ngFor="let shoppinglist of shoppinglists">
-                                <a class="dropdown-item" href="#">{{shoppinglist.name}}</a>
+                                <a class="dropdown-item" routerLink="/detail/{{shoppinglist.id}}">{{shoppinglist.name}}</a>
                             </li>
                         </ul>
                     </div>

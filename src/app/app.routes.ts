@@ -3,6 +3,6 @@ import { RecipeDetailsComponent } from './components/recipe-details/recipe-detai
 import { HomeComponent } from './home/home.component';
 
 export const routes: Routes = [
-    {path: 'home', component: HomeComponent},
-    {path: 'detail', component: RecipeDetailsComponent},
+    {path: 'detail/:id', component: RecipeDetailsComponent},
+    {path: '', component: HomeComponent}
 ];

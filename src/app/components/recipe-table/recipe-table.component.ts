@@ -4,10 +4,11 @@ import { Shoppinglist } from '../../models/Shoppinglist';
 import { CommonModule } from '@angular/common';
 import { RecipesService } from '../../services/recipes.service';
 import { ShoppinglistService } from '../../services/shoppinglist.service';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'recipe-table',
-  imports: [CommonModule],
+  imports: [CommonModule, RouterLink],
   templateUrl: './recipe-table.component.html',
   styleUrl: './recipe-table.component.css'
 })
