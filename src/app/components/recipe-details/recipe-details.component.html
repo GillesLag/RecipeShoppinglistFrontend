@@ -2,6 +2,6 @@
 
 <ul>
     <li *ngFor="let item of shoppinglist?.shoppinglistIngredients">
-        {{item.quantity}} {{item.ingredient.name}}
+        {{item.quantity}} {{item.ingredient?.name}}
     </li>
 </ul>

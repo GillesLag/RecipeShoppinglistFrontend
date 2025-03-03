@@ -28,7 +28,7 @@
                         <li *ngFor="let shoppinglist of shoppinglists">
                             <button
                                 class="dropdown-item"
-                                (click)="updateShoppinglist(shoppinglist)"
+                                (click)="updateShoppinglist(shoppinglist, recipe)"
                             >
                                 {{ shoppinglist.name }}
                             </button>

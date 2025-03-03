@@ -22,8 +22,8 @@ export class ShoppinglistService {
         return this.httpClient.get<Shoppinglist>(`${this.baseUrl}/GetById/${id}`);
     }
 
-    addRecipeToShoppinglist(shoppinglist: Shoppinglist): Observable<Shoppinglist> {
-        return this.httpClient.put<Shoppinglist>(`${this.baseUrl}/AddRecipeToShoppinglist`, shoppinglist)
+    addRecipeToShoppinglist(id: number, shoppinglist: Shoppinglist): Observable<void> {
+        return this.httpClient.put<void>(`${this.baseUrl}/AddRecipeToShoppinglist/${id}`, shoppinglist)
     }
 
 }

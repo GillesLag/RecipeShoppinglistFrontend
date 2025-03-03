@@ -9,7 +9,7 @@ import { ShoppinglistIngredient } from '../../models/ShoppinglistIngredient';
 
 @Component({
     selector: 'recipe-table',
-    imports: [CommonModule, RouterLink],
+    imports: [CommonModule],
     templateUrl: './recipe-table.component.html',
     styleUrl: './recipe-table.component.css'
 })
@@ -31,16 +31,21 @@ export class RecipeTableComponent {
     }
 
     updateShoppinglist(shoppinglist: Shoppinglist, recipe: Recipe): void {
+
         for (let index = 0; index < recipe.recipeIngredients.length; index++) {
             const element = recipe.recipeIngredients[index];
-            const list = shoppinglist.shoppinglistIngredients.find(x => x.ingredientId == element.ingredientId)
+            const list = shoppinglist.shoppinglistIngredients.find(x => x.ingredientId === element.ingredientId)
 
             if (list) {
+                console.log(list);
                 list.quantity += element.quantity;
+                console.log(list);
+                console.log(shoppinglist.shoppinglistIngredients)
+
             } else {
                 let newItem: ShoppinglistIngredient =
                 {
-                    id: null,
+                    id: undefined,
                     shoppinglist: null,
                     ingredient: null,
                     shoppinglistId: shoppinglist.id,
@@ -53,9 +58,10 @@ export class RecipeTableComponent {
             }
         }
 
-        this.shoppinglistService.addRecipeToShoppinglist(shoppinglist).subscribe({
+        console.log(shoppinglist.shoppinglistIngredients)
+
+        this.shoppinglistService.addRecipeToShoppinglist(shoppinglist.id, shoppinglist).subscribe({
             next: (response) => {
-                console.log(response)
                 alert('Shoppinglist updateted');
             },
             error: (err) => {

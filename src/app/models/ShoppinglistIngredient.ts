@@ -3,7 +3,7 @@ import { Ingredient } from "./Ingredient"
 import { Measurement } from "../Enums/Measurement"
 
 export interface ShoppinglistIngredient {
-    id: number | null,
+    id: number | undefined,
     shoppinglistId: number,
     ingredientId: number,
     quantity: number,
