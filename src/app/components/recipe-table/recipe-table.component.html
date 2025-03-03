@@ -7,22 +7,34 @@
         </tr>
     </thead>
     <tbody>
-        <tr *ngFor="let recipe of recipes;">
-            <td>{{recipe.name}}</td>
+        <tr *ngFor="let recipe of recipes">
+            <td>{{ recipe.name }}</td>
             <td>
-                <form class="col" asp-action="AddToShoppinglist">
-                    <div class="dropdown">
-                        <button class="btn btn-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            Add To Shoppinglist
-                        </button>
-                        <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="#">New Shoppinglist</a></li>
-                            <li *ngFor="let shoppinglist of shoppinglists">
-                                <a class="dropdown-item" routerLink="/detail/{{shoppinglist.id}}">{{shoppinglist.name}}</a>
-                            </li>
-                        </ul>
-                    </div>
-                </form>
+                <div class="dropdown">
+                    <button
+                        class="btn btn-primary dropdown-toggle"
+                        type="button"
+                        data-bs-toggle="dropdown"
+                        aria-expanded="false"
+                    >
+                        Add To Shoppinglist
+                    </button>
+                    <ul class="dropdown-menu">
+                        <li>
+                            <button class="dropdown-item" href="#">
+                                New Shoppinglist
+                            </button>
+                        </li>
+                        <li *ngFor="let shoppinglist of shoppinglists">
+                            <button
+                                class="dropdown-item"
+                                (click)="updateShoppinglist(shoppinglist)"
+                            >
+                                {{ shoppinglist.name }}
+                            </button>
+                        </li>
+                    </ul>
+                </div>
             </td>
             <td>
                 <a class="btn btn-primary col" href="#">Cooking Instructions</a>

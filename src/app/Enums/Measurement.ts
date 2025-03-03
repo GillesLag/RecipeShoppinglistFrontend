@@ -1,4 +1,4 @@
-export enum Measurement{
+export enum Measurement {
     Gram,
     Milliliter,
     Liter,

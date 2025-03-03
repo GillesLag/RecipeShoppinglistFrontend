@@ -1,7 +1,7 @@
 import { ShoppinglistIngredient } from "./ShoppinglistIngredient"
 
 export interface Shoppinglist {
-    id: Number,
+    id: number,
     name: string,
     shoppinglistIngredients: ShoppinglistIngredient[]
 }

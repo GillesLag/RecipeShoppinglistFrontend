@@ -4,21 +4,26 @@ import { Observable } from 'rxjs';
 import { Shoppinglist } from '../models/Shoppinglist';
 
 @Injectable({
-  providedIn: 'root'
+    providedIn: 'root'
 })
 export class ShoppinglistService {
-  private httpClient: HttpClient;
-  private baseUrl: string = 'http://localhost:5122/Shoppinglist'
-  
-  constructor(http: HttpClient) { 
-    this.httpClient = http;
-  }
+    private httpClient: HttpClient;
+    private baseUrl: string = 'http://localhost:5122/Shoppinglist'
 
-  getAllShoppinglists(): Observable<Shoppinglist[]>{
-    return this.httpClient.get<Shoppinglist[]>(`${this.baseUrl}/GetAll`)
-  }
+    constructor(http: HttpClient) {
+        this.httpClient = http;
+    }
 
-  getShoppinglistById(id: number): Observable<Shoppinglist>{
-    return this.httpClient.get<Shoppinglist>(`${this.baseUrl}/GetById/${id}`);
-  }
+    getAllShoppinglists(): Observable<Shoppinglist[]> {
+        return this.httpClient.get<Shoppinglist[]>(`${this.baseUrl}/GetAll`)
+    }
+
+    getShoppinglistById(id: number): Observable<Shoppinglist> {
+        return this.httpClient.get<Shoppinglist>(`${this.baseUrl}/GetById/${id}`);
+    }
+
+    addRecipeToShoppinglist(shoppinglist: Shoppinglist): Observable<Shoppinglist> {
+        return this.httpClient.put<Shoppinglist>(`${this.baseUrl}/AddRecipeToShoppinglist`, shoppinglist)
+    }
+
 }
