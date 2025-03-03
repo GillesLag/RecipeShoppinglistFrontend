@@ -20,11 +20,11 @@ export class RecipeTableComponent {
     shoppinglists: Shoppinglist[] = [];
     
     ngOnInit(): void {
-      this.recipeService.GetAllRecipes().subscribe(recipes => {
+      this.recipeService.getAllRecipes().subscribe(recipes => {
         this.recipes = recipes;
       });
 
-      this.shoppinglistService.GetAllShoppinglists().subscribe(shoppinglists => {
+      this.shoppinglistService.getAllShoppinglists().subscribe(shoppinglists => {
         this.shoppinglists = shoppinglists
       })
 

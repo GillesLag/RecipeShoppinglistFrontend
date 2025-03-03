@@ -17,8 +17,8 @@ export class AppComponent implements OnInit {
   shoppinglists: Shoppinglist[] = [];
 
   ngOnInit(): void {
-    this.shoppinglistService.GetAllShoppinglists().subscribe(shoppinglists => {
-      this.shoppinglists = shoppinglists
+    this.shoppinglistService.getAllShoppinglists().subscribe(shoppinglists => {
+      this.shoppinglists = shoppinglists;
     })
   }
 }

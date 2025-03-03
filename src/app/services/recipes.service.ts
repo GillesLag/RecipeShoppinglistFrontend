@@ -14,7 +14,7 @@ export class RecipesService {
     this.httpClient = http;
   }
 
-  GetAllRecipes(): Observable<Recipe[]>{
+  getAllRecipes(): Observable<Recipe[]>{
     return this.httpClient.get<Recipe[]>(`${this.baseUrl}/GetAll`);
   }
 }

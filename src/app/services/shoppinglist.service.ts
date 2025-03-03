@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Shoppinglist } from '../models/Shoppinglist';
@@ -10,11 +10,15 @@ export class ShoppinglistService {
   private httpClient: HttpClient;
   private baseUrl: string = 'http://localhost:5122/Shoppinglist'
   
-    constructor(http: HttpClient) { 
-      this.httpClient = http;
-    }
-  
-    GetAllShoppinglists(): Observable<Shoppinglist[]>{
-      return this.httpClient.get<Shoppinglist[]>(`${this.baseUrl}/GetAll`)
-    }
+  constructor(http: HttpClient) { 
+    this.httpClient = http;
+  }
+
+  getAllShoppinglists(): Observable<Shoppinglist[]>{
+    return this.httpClient.get<Shoppinglist[]>(`${this.baseUrl}/GetAll`)
+  }
+
+  getShoppinglistById(id: number): Observable<Shoppinglist>{
+    return this.httpClient.get<Shoppinglist>(`${this.baseUrl}/GetById/${id}`);
+  }
 }
