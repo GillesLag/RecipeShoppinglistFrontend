@@ -1,7 +1,40 @@
-<p>recipe-details works!</p>
+<div class="text-center">
+    <h1 class="display-5">
+        Shoppinglist: {{shoppinglist?.name}}
+    </h1>
+</div>
 
-<ul>
-    <li *ngFor="let item of shoppinglist?.shoppinglistIngredients">
-        {{item.quantity}} {{item.ingredient?.name}}
-    </li>
-</ul>
+<div class="container justify-content-between">
+    <div class="row justify-content-center gx-5">
+        <div class="col-4 p-5">
+            <ul class="list-group">
+                <li *ngFor="let item of shoppinglist?.shoppinglistIngredients; let i =index"
+                    class="list-group-item d-flex justify-content-between align-items-start">
+                    <div>
+                        <input class="form-check-input me-1" type="checkbox" value="" id="ingredients{{i}}">
+                        <label class="form-check-label fw-bold" for="ingredients{{i}}">
+                            {{item.quantity}}{{measurementList[item.measurement].toLowerCase()}}
+                            {{item.ingredient?.name}}</label>
+                    </div>
+
+                    <button type="button" class="btn btn-danger">Delete</button>
+                </li>
+            </ul>
+        </div>
+
+        <div class="col-4 p-5">
+            <ul class="list-group">
+                <li *ngFor="let item of recipes"
+                    class="list-group-item d-flex justify-content-between align-items-start">
+                    <div>
+                        <label class="form-check-label fw-bold">
+                            {{item.recipe?.name}}
+                        </label>
+                    </div>
+
+                    <button type="button" class="btn btn-danger">Delete</button>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
