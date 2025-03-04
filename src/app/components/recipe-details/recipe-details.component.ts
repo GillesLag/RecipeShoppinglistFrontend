@@ -1,8 +1,8 @@
 import { Component, inject, OnInit } from '@angular/core';
+import { RecipesService } from '../../services/recipes.service';
+import { Recipe } from '../../models/Recipe';
 import { ActivatedRoute } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { Shoppinglist } from '../../models/Shoppinglist';
-import { ShoppinglistService } from '../../services/shoppinglist.service';
 import { Measurement } from '../../Enums/Measurement';
 
 @Component({
@@ -12,10 +12,11 @@ import { Measurement } from '../../Enums/Measurement';
     styleUrl: './recipe-details.component.css'
 })
 export class RecipeDetailsComponent implements OnInit {
-    shoppinglistService = inject(ShoppinglistService)
+    recipeService = inject(RecipesService)
 
-    id: string | null = null;
-    shoppinglist: Shoppinglist | undefined;
+    id: string | null = null
+    recipe!: Recipe;
+    measurementList: string[] = Object.keys(Measurement).filter(key => isNaN(Number(key)));
 
     constructor(private route: ActivatedRoute) {
 
@@ -24,9 +25,12 @@ export class RecipeDetailsComponent implements OnInit {
     ngOnInit(): void {
         this.route.paramMap.subscribe(params => {
             this.id = params.get('id');
-            this.shoppinglistService.getShoppinglistById(parseInt(this.id!)).subscribe(shoppinglist => {
-                this.shoppinglist = shoppinglist;
+            this.recipeService.getById(parseInt(this.id!)).subscribe(recipe => {
+                this.recipe = recipe;
+                console.log(recipe);
             })
         });
     }
+
+
 }

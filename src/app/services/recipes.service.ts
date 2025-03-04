@@ -4,17 +4,21 @@ import { Recipe } from '../models/Recipe';
 import { Observable } from 'rxjs';
 
 @Injectable({
-  providedIn: 'root'
+    providedIn: 'root'
 })
 export class RecipesService {
-  private httpClient: HttpClient;
-  private baseUrl: string = 'http://localhost:5122/Recipe'
+    private httpClient: HttpClient;
+    private baseUrl: string = 'http://localhost:5122/Recipe'
 
-  constructor(http: HttpClient) { 
-    this.httpClient = http;
-  }
+    constructor(http: HttpClient) {
+        this.httpClient = http;
+    }
 
-  getAllRecipes(): Observable<Recipe[]>{
-    return this.httpClient.get<Recipe[]>(`${this.baseUrl}/GetAll`);
-  }
+    getAllRecipes(): Observable<Recipe[]> {
+        return this.httpClient.get<Recipe[]>(`${this.baseUrl}/GetAll`);
+    }
+
+    getById(id: number): Observable<Recipe> {
+        return this.httpClient.get<Recipe>(`${this.baseUrl}/GetById/${id}`)
+    }
 }

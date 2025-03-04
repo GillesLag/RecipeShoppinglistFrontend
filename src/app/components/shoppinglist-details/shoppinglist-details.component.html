@@ -1,0 +1,7 @@
+<p>recipe-details works!</p>
+
+<ul>
+    <li *ngFor="let item of shoppinglist?.shoppinglistIngredients">
+        {{item.quantity}} {{item.ingredient?.name}}
+    </li>
+</ul>

@@ -34,7 +34,7 @@
                         <li *ngFor="let shoppinglist of shoppinglists">
                             <a
                                 class="dropdown-item"
-                                [routerLink]="['/detail', shoppinglist.id]"
+                                [routerLink]="['/shoppinglistDetail', shoppinglist.id]"
                                 >{{ shoppinglist.name }}</a
                             >
                         </li>

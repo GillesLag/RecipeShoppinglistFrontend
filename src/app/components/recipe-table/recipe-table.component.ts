@@ -1,15 +1,15 @@
-import { Component, inject, Input } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { Recipe } from '../../models/Recipe';
 import { Shoppinglist } from '../../models/Shoppinglist';
 import { CommonModule } from '@angular/common';
 import { RecipesService } from '../../services/recipes.service';
 import { ShoppinglistService } from '../../services/shoppinglist.service';
-import { RouterLink } from '@angular/router';
 import { ShoppinglistIngredient } from '../../models/ShoppinglistIngredient';
+import { RouterLink } from '@angular/router';
 
 @Component({
     selector: 'recipe-table',
-    imports: [CommonModule],
+    imports: [CommonModule, RouterLink],
     templateUrl: './recipe-table.component.html',
     styleUrl: './recipe-table.component.css'
 })
@@ -19,6 +19,8 @@ export class RecipeTableComponent {
 
     recipes: Recipe[] = [];
     shoppinglists: Shoppinglist[] = [];
+    alerts: { id: number, message: string, type: string }[] = []
+    nextId: number = 0;
 
     ngOnInit(): void {
         this.recipeService.getAllRecipes().subscribe(recipes => {
@@ -31,17 +33,35 @@ export class RecipeTableComponent {
     }
 
     updateShoppinglist(shoppinglist: Shoppinglist, recipe: Recipe): void {
+        const updatedShopinglist = this.addIngredientsToShoppinglist(shoppinglist, recipe);
 
+        this.shoppinglistService.updateShoppinglist(shoppinglist.id, updatedShopinglist).subscribe({
+            next: () => {
+                const newAlert = { id: this.nextId++, message: `The shoppinglist: ${updatedShopinglist.name} is successfully updated!`, type: 'success' };
+                this.showAlert(newAlert);
+            },
+            error: (err) => {
+                const newAlert = { id: this.nextId++, message: `There was an error when updating the shoppinglist: ${updatedShopinglist.name}`, type: 'danger' };
+                this.showAlert(newAlert)
+            }
+        });
+    }
+
+    showAlert(alert: { id: number, message: string, type: string }): void {
+        this.alerts.push(alert);
+
+        setTimeout(() => {
+            this.alerts = this.alerts.filter(x => x.id !== alert.id);
+        }, 5000);
+    }
+
+    addIngredientsToShoppinglist(shoppinglist: Shoppinglist, recipe: Recipe): Shoppinglist {
         for (let index = 0; index < recipe.recipeIngredients.length; index++) {
             const element = recipe.recipeIngredients[index];
             const list = shoppinglist.shoppinglistIngredients.find(x => x.ingredientId === element.ingredientId)
 
             if (list) {
-                console.log(list);
                 list.quantity += element.quantity;
-                console.log(list);
-                console.log(shoppinglist.shoppinglistIngredients)
-
             } else {
                 let newItem: ShoppinglistIngredient =
                 {
@@ -58,16 +78,10 @@ export class RecipeTableComponent {
             }
         }
 
-        console.log(shoppinglist.shoppinglistIngredients)
+        return shoppinglist
+    }
 
-        this.shoppinglistService.addRecipeToShoppinglist(shoppinglist.id, shoppinglist).subscribe({
-            next: (response) => {
-                alert('Shoppinglist updateted');
-            },
-            error: (err) => {
-                console.log(err)
-                alert('Failed to update shoppinglist');
-            }
-        });
+    removeAlert(id: number): void {
+        this.alerts = this.alerts.filter(alert => alert.id !== id)
     }
 }

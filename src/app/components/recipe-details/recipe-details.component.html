@@ -1,7 +1,34 @@
-<p>recipe-details works!</p>
-
-<ul>
-    <li *ngFor="let item of shoppinglist?.shoppinglistIngredients">
-        {{item.quantity}} {{item.ingredient?.name}}
-    </li>
-</ul>
+<div class="container py-5">
+    <div class="recipe-card bg-white">
+        <img src="https://via.placeholder.com/600x200" alt="Recipe Image" class="recipe-image">
+        <div class="bg-dark text-white text-center p-3">
+            <h1 class="h3">{{recipe.name}}</h1>
+            <p class="mb-0">Servings: {{recipe.servings}}</p>
+        </div>
+        <div class="p-4">
+            <h2 class="h5">Ingredients:</h2>
+            <ul class="list-unstyled">
+                <li *ngFor="let ingredient of recipe.recipeIngredients">
+                    {{ingredient.quantity}}{{measurementList[ingredient.measurement].toLowerCase()}}
+                    {{ingredient.ingredient?.name}}
+                </li>
+            </ul>
+            <div class="mt-4">
+                <h2 class="h5">Instructions:</h2>
+                <ol class="ps-3">
+                    <li>Bring a large pot of salted water to a boil. Cook spaghetti until al dente.</li>
+                    <li>In a skillet, cook pancetta over medium heat until crispy. Add minced garlic and sauté briefly.
+                    </li>
+                    <li>In a bowl, whisk together eggs and grated Parmesan cheese.</li>
+                    <li>Drain the spaghetti, reserving 1 cup of pasta water. Add spaghetti to the skillet with pancetta.
+                    </li>
+                    <li>Remove skillet from heat and quickly mix in the egg and cheese mixture, stirring vigorously to
+                        coat the pasta.</li>
+                    <li>If the sauce is too thick, add reserved pasta water, a little at a time, to reach desired
+                        consistency.</li>
+                    <li>Season with salt and pepper. Serve immediately with extra Parmesan cheese on top.</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+</div>

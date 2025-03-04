@@ -22,7 +22,7 @@ export class ShoppinglistService {
         return this.httpClient.get<Shoppinglist>(`${this.baseUrl}/GetById/${id}`);
     }
 
-    addRecipeToShoppinglist(id: number, shoppinglist: Shoppinglist): Observable<void> {
+    updateShoppinglist(id: number, shoppinglist: Shoppinglist): Observable<void> {
         return this.httpClient.put<void>(`${this.baseUrl}/AddRecipeToShoppinglist/${id}`, shoppinglist)
     }
 

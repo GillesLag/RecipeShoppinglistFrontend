@@ -1,0 +1,17 @@
+ body {
+     background-color: #f8f9fa;
+ }
+
+ .recipe-card {
+     max-width: 600px;
+     margin: 20px auto;
+     border-radius: 10px;
+     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+     overflow: hidden;
+ }
+
+ .recipe-image {
+     width: 100%;
+     height: 200px;
+     object-fit: cover;
+ }
