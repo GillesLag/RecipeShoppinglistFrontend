@@ -6,7 +6,6 @@ import { RecipesService } from '../../services/recipes.service';
 import { ShoppinglistService } from '../../services/shoppinglist.service';
 import { ShoppinglistIngredient } from '../../models/ShoppinglistIngredient';
 import { RouterLink } from '@angular/router';
-import { ShoppinglistRecipe } from '../../models/ShoppinglistRecipe';
 
 @Component({
     selector: 'recipe-table',
@@ -35,7 +34,6 @@ export class RecipeTableComponent {
 
     updateShoppinglist(shoppinglist: Shoppinglist, recipe: Recipe): void {
         let updatedShopinglist = this.addIngredientsToShoppinglist(shoppinglist, recipe);
-        updatedShopinglist = this.addRecipeToShoppinglist(updatedShopinglist, recipe);
 
         this.shoppinglistService.updateShoppinglist(shoppinglist.id, updatedShopinglist).subscribe({
             next: () => {
@@ -71,7 +69,7 @@ export class RecipeTableComponent {
                     shoppinglist: null,
                     ingredient: null,
                     shoppinglistId: shoppinglist.id,
-                    ingredientId: element.ingredientId,
+                    ingredientId: Number(element.ingredientId),
                     quantity: element.quantity,
                     measurement: element.measurement,
                 };
@@ -81,25 +79,6 @@ export class RecipeTableComponent {
         }
 
         return shoppinglist
-    }
-
-    addRecipeToShoppinglist(shoppinglist: Shoppinglist, recipe: Recipe): Shoppinglist {
-        if (shoppinglist.shoppinglistRecipes.some(x => x.recipeId == recipe.id)) {
-            return shoppinglist
-        }
-
-        const newRecipe: ShoppinglistRecipe = {
-            shoppinglistId: shoppinglist.id,
-            recipeId: recipe.id,
-            id: undefined,
-            shoppinglist: undefined,
-            recipe: undefined
-        }
-
-        shoppinglist.shoppinglistRecipes.push(newRecipe);
-
-        console.log(shoppinglist)
-        return shoppinglist;
     }
 
     removeAlert(id: number): void {

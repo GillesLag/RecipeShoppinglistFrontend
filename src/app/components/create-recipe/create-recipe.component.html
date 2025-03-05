@@ -1,0 +1,87 @@
+<div class="container py-5">
+    <div class="recipe-card bg-white">
+        <form (submit)="createRecipe()">
+            <div class="bg-dark text-white text-center p-3 ">
+                <div class="row pb-4 align-items-center justify-content-center text-start">
+                    <div class="col-2">
+                        <label for="recipeName" class="form-label">Name</label>
+                    </div>
+                    <div class="col-6">
+                        <input type="text" name="recipeName" [(ngModel)]="recipeName" class="form-control text-center"
+                            placeholder="<name>" id="recipeName">
+                    </div>
+                </div>
+                <div class="row align-items-center justify-content-center text-start">
+                    <div class="col-2">
+                        <label for="recipeServings" class="form-label">Servings</label>
+                    </div>
+                    <div class="col-6">
+                        <input type="number" id="recipeServings" class="form-control text-center" placeholder="0"
+                            min="1" max="100" />
+                    </div>
+                </div>
+            </div>
+
+            <div class="p-4">
+                <h2 class="h5">Ingredients:</h2>
+                <ul class="list-unstyled">
+                    <li *ngFor="let ingredient of ingredients" class="pb-2">
+                        <div class="row">
+                            <div class="col-auto">
+                                <input type="text" id="ingredientName{{ingredient.id}}" placeholder="ingredient name"
+                                    class="form-control form-control-sm" [(ngModel)]="ingredient.name"
+                                    name="ingredientName{{ingredient.id}}" />
+                            </div>
+                            <div class="col-2">
+                                <input type="text" id="ingredientQuantity{{ingredient.id}}" placeholder="quantity"
+                                    class="form-control form-control-sm" [(ngModel)]="ingredient.quantity"
+                                    name="ingredientQuantity{{ingredient.id}}" />
+                            </div>
+                            <div class="col-auto">
+                                <select class="form-select form-select-sm" id="ingredientMeasurement{{ingredient.id}}"
+                                    [(ngModel)]="ingredient.measurement" name="ingredientMeasurement{{ingredient.id}}">
+                                    <option *ngFor="let item of measurementList; let i = index" [value]="i">{{item}}
+                                    </option>
+                                </select>
+                            </div>
+                            <div class="col-2">
+                                <button type="button" class="btn btn-danger btn-sm"
+                                    (click)="deleteIngredient(ingredient.id)">delete</button>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+                <button class="btn btn-primary" type="button" (click)="addIngredient()">+ Add Ingredient</button>
+
+                <div class="mt-4">
+                    <h2 class="h5">Instructions:</h2>
+                    <ol class="ps-3">
+                        <div class="row pb-2" *ngFor="let item of cookingInstructions">
+                            <div class="col-10 text-wrap">
+                                <li>{{item.instruction}}</li>
+                            </div>
+                            <div class="col-2">
+                                <button type="button" class="btn btn-danger btn-sm"
+                                    (click)="deleteInstruction(item.id)">delete</button>
+                            </div>
+                        </div>
+                    </ol>
+
+                    <div class="row pb-4">
+                        <div class="col-10">
+                            <input class="form-control" id="instruction" [(ngModel)]="instruction"
+                                name="instruction" [(ngModel)]="instruction"/>
+                        </div>
+                        <div class="col-auto">
+                            <button class="btn btn-primary" id="instruction" type="button"
+                                (click)="addInstruction()">Add</button>
+                        </div>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn btn-primary">Create</button>
+            </div>
+        </form>
+
+    </div>
+</div>

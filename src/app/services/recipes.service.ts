@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Recipe } from '../models/Recipe';
 import { Observable } from 'rxjs';
+import { CreateRecipeDto } from '../models/dtos/createRecipeDto';
 
 @Injectable({
     providedIn: 'root'
@@ -20,5 +21,9 @@ export class RecipesService {
 
     getById(id: number): Observable<Recipe> {
         return this.httpClient.get<Recipe>(`${this.baseUrl}/GetById/${id}`)
+    }
+
+    createRecipe(recipe: CreateRecipeDto): Observable<void> {
+        return this.httpClient.post<void>(`${this.baseUrl}/CreateRecipe`, recipe);
     }
 }

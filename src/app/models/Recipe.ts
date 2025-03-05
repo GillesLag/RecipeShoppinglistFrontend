@@ -1,11 +1,9 @@
 import { RecipeIngredient } from "./RecipeIngredient"
-import { ShoppinglistRecipe } from "./ShoppinglistRecipe"
 
 export interface Recipe {
-    id: number,
+    id: number | undefined,
     name: string,
     servings: number,
-    cookingInstructions: string,
+    cookingInstructions: string[],
     recipeIngredients: RecipeIngredient[],
-    shoppinglistRecipes: ShoppinglistRecipe[]
 }
