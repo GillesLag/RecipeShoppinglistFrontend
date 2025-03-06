@@ -8,6 +8,7 @@ export interface RecipeIngredient {
     ingredientId: number | undefined,
     quantity: number,
     measurement: Measurement,
-    recipe: Recipe | undefined
+    recipe: Recipe | undefined,
+    isChecked: boolean,
     ingredient: Ingredient | undefined
 }

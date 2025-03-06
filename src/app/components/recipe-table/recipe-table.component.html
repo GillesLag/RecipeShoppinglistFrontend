@@ -9,16 +9,12 @@
     <tbody>
         <tr *ngFor="let recipe of recipes">
             <td>
-                <app-recipe-table-item [recipe]="recipe" [recipeIngredients]="recipe.recipeIngredients"/>
+                <app-recipe-table-item [recipe]="recipe" [recipeIngredients]="recipe.recipeIngredients" />
             </td>
             <td>
                 <div class="dropdown">
-                    <button
-                        class="btn btn-primary dropdown-toggle"
-                        type="button"
-                        data-bs-toggle="dropdown"
-                        aria-expanded="false"
-                    >
+                    <button class="btn btn-primary dropdown-toggle" type="button" data-bs-toggle="dropdown"
+                        aria-expanded="false">
                         Add To Shoppinglist
                     </button>
                     <ul class="dropdown-menu">
@@ -28,12 +24,7 @@
                             </button>
                         </li>
                         <li *ngFor="let shoppinglist of shoppinglists">
-                            <button
-                                class="dropdown-item"
-                                (click)="
-                                    updateShoppinglist(shoppinglist, recipe)
-                                "
-                            >
+                            <button class="dropdown-item" (click)="updateShoppinglist(shoppinglist, recipe)">
                                 {{ shoppinglist.name }}
                             </button>
                         </li>
@@ -41,11 +32,7 @@
                 </div>
             </td>
             <td>
-                <a
-                    class="btn btn-primary col"
-                    [routerLink]="['/recipeDetail', recipe.id]"
-                    >Cooking Instructions</a
-                >
+                <a class="btn btn-primary col" [routerLink]="['/recipeDetail', recipe.id]">Cooking Instructions</a>
             </td>
             <td>
                 <button (click)="deleteRecipe(recipe.id!)" type="button" class="btn btn-danger">Delete</button>
@@ -55,18 +42,9 @@
 </table>
 
 <div class="position-fixed top-0 end-0 p-3">
-    <div
-        *ngFor="let alert of alerts; let i = index"
-        class="alert alert-{{ alert.type }}"
-        #alertPlaceholder
-    >
+    <div *ngFor="let alert of alerts; let i = index" class="alert alert-{{ alert.type }}" #alertPlaceholder>
         {{ alert.message }}
-        <button
-            type="button"
-            class="btn-close"
-            data-bs-dismiss="alert"
-            aria-label="close"
-            (click)="removeAlert(alert.id)"
-        ></button>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="close"
+            (click)="removeAlert(alert.id)"></button>
     </div>
 </div>
