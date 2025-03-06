@@ -6,10 +6,11 @@ import { RecipesService } from '../../services/recipes.service';
 import { ShoppinglistService } from '../../services/shoppinglist.service';
 import { ShoppinglistIngredient } from '../../models/ShoppinglistIngredient';
 import { RouterLink } from '@angular/router';
+import { RecipeTableItemComponent } from '../recipe-table-item/recipe-table-item.component';
 
 @Component({
     selector: 'recipe-table',
-    imports: [CommonModule, RouterLink],
+    imports: [CommonModule, RouterLink, RecipeTableItemComponent],
     templateUrl: './recipe-table.component.html',
     styleUrl: './recipe-table.component.css'
 })
@@ -70,6 +71,7 @@ export class RecipeTableComponent {
                     ingredient: null,
                     shoppinglistId: shoppinglist.id,
                     ingredientId: Number(element.ingredientId),
+                    isChecked: false,
                     quantity: element.quantity,
                     measurement: element.measurement,
                 };
@@ -83,5 +85,10 @@ export class RecipeTableComponent {
 
     removeAlert(id: number): void {
         this.alerts = this.alerts.filter(alert => alert.id !== id)
+    }
+
+    deleteRecipe(id: number): void {
+        this.recipeService.deleteRecipe(id).subscribe();
+        this.recipes = this.recipes.filter(x => x.id !== id);
     }
 }

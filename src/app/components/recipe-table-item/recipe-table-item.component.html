@@ -1,0 +1,22 @@
+<div class="accordion accordion-flush" id="accordion">
+    <div class="accordion-item">
+        <h2 class="accordion-header">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                [attr.data-bs-target]="`#${recipe().id}`" aria-expanded="false"
+                [attr.aria-controls]="`$recipe().id`">
+                {{recipe().name}}
+            </button>
+        </h2>
+        <div id="{{recipe().id}}" class="accordion-collapse collapse">
+            <div class="accordion-body">
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item" *ngFor="let ingredient of recipeIngredients(); let i =index">
+                        <input class="form-check-input me-1" type="checkbox" value="" id="{{ingredient.id}}{{i}}">
+                        <label class="form-check-label"
+                            for="{{ingredient.id}}{{i}}">{{ingredient.ingredient?.name}}</label>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>

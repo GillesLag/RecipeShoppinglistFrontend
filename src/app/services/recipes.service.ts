@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Recipe } from '../models/Recipe';
 import { Observable } from 'rxjs';
-import { CreateRecipeDto } from '../models/dtos/createRecipeDto';
+import { CreateRecipeDto } from '../models/dtos/CreateRecipeDto';
 
 @Injectable({
     providedIn: 'root'
@@ -25,5 +25,9 @@ export class RecipesService {
 
     createRecipe(recipe: CreateRecipeDto): Observable<void> {
         return this.httpClient.post<void>(`${this.baseUrl}/CreateRecipe`, recipe);
+    }
+
+    deleteRecipe(id: number): Observable<void> {
+        return this.httpClient.delete<void>(`${this.baseUrl}/Delete/${id}`)
     }
 }

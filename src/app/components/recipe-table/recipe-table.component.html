@@ -8,7 +8,9 @@
     </thead>
     <tbody>
         <tr *ngFor="let recipe of recipes">
-            <td>{{ recipe.name }}</td>
+            <td>
+                <app-recipe-table-item [recipe]="recipe" [recipeIngredients]="recipe.recipeIngredients"/>
+            </td>
             <td>
                 <div class="dropdown">
                     <button
@@ -22,7 +24,7 @@
                     <ul class="dropdown-menu">
                         <li>
                             <button class="dropdown-item" href="#">
-                                New Shoppinglist
+                                + New Shoppinglist
                             </button>
                         </li>
                         <li *ngFor="let shoppinglist of shoppinglists">
@@ -44,6 +46,9 @@
                     [routerLink]="['/recipeDetail', recipe.id]"
                     >Cooking Instructions</a
                 >
+            </td>
+            <td>
+                <button (click)="deleteRecipe(recipe.id!)" type="button" class="btn btn-danger">Delete</button>
             </td>
         </tr>
     </tbody>

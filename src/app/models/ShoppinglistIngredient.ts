@@ -8,6 +8,7 @@ export interface ShoppinglistIngredient {
     ingredientId: number,
     quantity: number,
     measurement: Measurement,
+    isChecked: boolean,
     shoppinglist: Shoppinglist | null,
     ingredient: Ingredient | null
 }

@@ -16,8 +16,8 @@
                         <label for="recipeServings" class="form-label">Servings</label>
                     </div>
                     <div class="col-6">
-                        <input type="number" id="recipeServings" class="form-control text-center" placeholder="0"
-                            min="1" max="100" />
+                        <input type="number" id="recipeServings" [(ngModel)]="servings" name="servings"
+                            class="form-control text-center" placeholder="0" min="1" max="100" />
                     </div>
                 </div>
             </div>
@@ -40,7 +40,7 @@
                             <div class="col-auto">
                                 <select class="form-select form-select-sm" id="ingredientMeasurement{{ingredient.id}}"
                                     [(ngModel)]="ingredient.measurement" name="ingredientMeasurement{{ingredient.id}}">
-                                    <option *ngFor="let item of measurementList; let i = index" [value]="i">{{item}}
+                                    <option *ngFor="let item of measurementList; let i = index" [ngValue]="i">{{item}}
                                     </option>
                                 </select>
                             </div>
@@ -69,8 +69,8 @@
 
                     <div class="row pb-4">
                         <div class="col-10">
-                            <input class="form-control" id="instruction" [(ngModel)]="instruction"
-                                name="instruction" [(ngModel)]="instruction"/>
+                            <input class="form-control" id="instruction" [(ngModel)]="instruction" name="instruction"
+                                [(ngModel)]="instruction" />
                         </div>
                         <div class="col-auto">
                             <button class="btn btn-primary" id="instruction" type="button"

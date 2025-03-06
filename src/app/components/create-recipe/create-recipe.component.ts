@@ -4,9 +4,9 @@ import { Measurement } from '../../Enums/Measurement';
 import { FormsModule } from '@angular/forms'
 import { RecipesService } from '../../services/recipes.service';
 import { Ingredient } from '../../models/Ingredient';
-import { CreateRecipeDto } from '../../models/dtos/createRecipeDto';
-import { CreateRecipeIngredientDto } from '../../models/dtos/CreateRecipeIngredientDto';
+import { CreateRecipeDto } from '../../models/dtos/CreateRecipeDto';
 import { IngredientService } from '../../services/ingredient.service';
+import { CreateRecipeIngredientDto } from '../../models/dtos/CreateRecipeIngredientDto';
 
 @Component({
     selector: 'app-create-recipe',
@@ -14,7 +14,7 @@ import { IngredientService } from '../../services/ingredient.service';
     templateUrl: './create-recipe.component.html',
     styleUrl: './create-recipe.component.css'
 })
-export class CreateRecipeComponent implements OnInit{
+export class CreateRecipeComponent implements OnInit {
     ingredientService = inject(IngredientService)
     recipeService = inject(RecipesService)
     measurementList: string[] = Object.keys(Measurement).filter(x => isNaN(Number(x)))
@@ -64,18 +64,19 @@ export class CreateRecipeComponent implements OnInit{
 
     createRecipe(): void {
         const recipe: CreateRecipeDto = {
-            cookingInstructions: this.createInstructions(),
             name: this.recipeName,
             servings: this.servings,
+            cookingInstructions: this.createInstructions(),
             recipeIngredients: this.createRecipeIngredients(),
         };
 
         console.log(JSON.stringify(recipe));
+        console.log(recipe);
 
 
         this.recipeService.createRecipe(recipe).subscribe({
-            next: () => { },
-            error: () => { }
+            next: () => { alert('recipe added') },
+            error: () => { alert('recipe added failed') }
         });
     }
 
@@ -95,17 +96,17 @@ export class CreateRecipeComponent implements OnInit{
         this.ingredients.forEach(x => {
             const tempIngredient = this.allIngredients.find(y => y.name === x.name)
             const item: CreateRecipeIngredientDto = {
-                ingredientId: undefined,
+                ingredientId: 0,
                 quantity: x.quantity,
                 measurement: x.measurement,
                 ingredient: undefined,
-            }; 
+            };
 
             if (!tempIngredient) {
                 item.ingredient = { name: x.name };
             } else {
                 item.ingredient = { name: tempIngredient.name };
-                item.ingredientId = tempIngredient.id
+                item.ingredientId = Number(tempIngredient.id)
             }
 
             ingredients.push(item);
