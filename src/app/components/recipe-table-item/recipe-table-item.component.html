@@ -13,7 +13,7 @@
                         <label><strong>Servings:</strong></label>
                     </div>
                     <div class="col-2">
-                        <input [value]="recipe().servings" class="form-control form-control-sm" type="number" />
+                        <input [value]="recipe().servings" (change)="(updateQuantities($event))" min="1" class="form-control form-control-sm" type="number" />
                     </div>
                 </div>
                 
@@ -21,10 +21,10 @@
                     <li class="list-group-item" *ngFor="let ingredient of recipeIngredients(); let i =index">
                         <div class="row">
                             <div class="col-auto">
-                                <input class="form-check-input me-1" type="checkbox" [checked]="ingredient.isChecked"
+                                <input class="form-check-input me-1" type="checkbox" [(ngModel)]="ingredient.isChecked"
                                     id="{{ingredient.id}}{{i}}">
                                 <label class="form-check-label"
-                                    for="{{ingredient.id}}{{i}}">{{ingredient.ingredient?.name}}</label>
+                                    for="{{ingredient.id}}{{i}}">{{ingredient.ingredient.name}}</label>
                             </div>
                             <div class="col-auto">
                                 {{ingredient.quantity}}{{measurementList[ingredient.measurement].toLowerCase()}}

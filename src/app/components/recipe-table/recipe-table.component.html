@@ -2,7 +2,7 @@
     <thead>
         <tr>
             <th>Recipe</th>
-            <th>Add To Shoppinglist</th>
+            <th></th>
             <th>Cooking Instructions</th>
         </tr>
     </thead>
@@ -12,24 +12,24 @@
                 <app-recipe-table-item [recipe]="recipe" [recipeIngredients]="recipe.recipeIngredients" />
             </td>
             <td>
-                <div class="dropdown">
-                    <button class="btn btn-primary dropdown-toggle" type="button" data-bs-toggle="dropdown"
-                        aria-expanded="false">
-                        Add To Shoppinglist
-                    </button>
-                    <ul class="dropdown-menu">
-                        <li>
-                            <button class="dropdown-item" href="#">
-                                + New Shoppinglist
-                            </button>
-                        </li>
-                        <li *ngFor="let shoppinglist of shoppinglists">
-                            <button class="dropdown-item" (click)="updateShoppinglist(shoppinglist, recipe)">
-                                {{ shoppinglist.name }}
-                            </button>
-                        </li>
-                    </ul>
+                <div class="row">
+                    <div class="col-auto">
+                        <app-recipe-table-dropdown-menu [shoppinglists]="shoppinglists" text="Add To"
+                            (onUpdateShoppinglist)="addToShoppinglist($event, recipe)">
+                            <li>
+                                <button class="dropdown-item" data-bs-toggle="modal"
+                                    data-bs-target="#createShoppinglist">
+                                    + New Shoppinglist
+                                </button>
+                            </li>
+                        </app-recipe-table-dropdown-menu>
+                    </div>
+                    <div class="col-auto">
+                        <app-recipe-table-dropdown-menu [shoppinglists]="shoppinglists" text="Remove From"
+                            (onUpdateShoppinglist)="removeFromShoppinglist($event, recipe)" />
+                    </div>
                 </div>
+
             </td>
             <td>
                 <a class="btn btn-primary col" [routerLink]="['/recipeDetail', recipe.id]">Cooking Instructions</a>
@@ -41,10 +41,40 @@
     </tbody>
 </table>
 
+<!--Update Shoppinglist alerts-->
 <div class="position-fixed top-0 end-0 p-3">
     <div *ngFor="let alert of alerts; let i = index" class="alert alert-{{ alert.type }}" #alertPlaceholder>
         {{ alert.message }}
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="close"
             (click)="removeAlert(alert.id)"></button>
+    </div>
+</div>
+
+<!--CreateShoppinglist modal-->
+<div class="modal fade" id="createShoppinglist" tabindex="-1" aria-labelledby="createShoppinglistLabel"
+    aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="createShoppinglistLabel">New Shoppinglist</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form (ngSubmit)="createShoppinglist()">
+                <div class="modal-body">
+                    <div class="row g-3 align-items-center">
+                        <div class="col-auto">
+                            <label for="shoppinglistName" class="col-form-label">Name</label>
+                        </div>
+                        <div class="col-auto">
+                            <input type="text" required="true" id="shoppinglistName" class="form-control" name="shoppinglistName" [(ngModel)]="shoppinglistName"/>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary" data-bs-dismiss="modal">Create Shoppinglist</button>
+                </div>
+            </form>
+        </div>
     </div>
 </div>

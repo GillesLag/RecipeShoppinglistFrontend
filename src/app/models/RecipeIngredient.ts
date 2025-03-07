@@ -3,12 +3,12 @@ import { Ingredient } from "./Ingredient"
 import { Measurement } from "../Enums/Measurement"
 
 export interface RecipeIngredient {
-    id: number | undefined,
-    recipeId: number | undefined,
-    ingredientId: number | undefined,
+    id: number,
+    recipeId: number,
+    ingredientId: number,
     quantity: number,
     measurement: Measurement,
-    recipe: Recipe | undefined,
+    recipe: Recipe,
     isChecked: boolean,
-    ingredient: Ingredient | undefined
+    ingredient: Ingredient
 }
