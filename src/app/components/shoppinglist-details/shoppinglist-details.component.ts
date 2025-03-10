@@ -9,7 +9,6 @@ import { Measurement } from '../../Enums/Measurement';
     selector: 'app-recipe-details',
     imports: [CommonModule],
     templateUrl: './shoppinglist-details.component.html',
-    styleUrl: './shoppinglist-details.component.css'
 })
 export class shoppinglistDetailsComponent implements OnInit {
     shoppinglistService = inject(ShoppinglistService)
