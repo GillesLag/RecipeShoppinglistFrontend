@@ -9,7 +9,7 @@ import { RecipeTableItemComponent } from '../recipe-table-item/recipe-table-item
 import { UpdateShoppinglistDto } from '../../models/dtos/UpdateShoppinglistDto';
 import { UpdateShoppinglistIngredientDto } from '../../models/dtos/UpdateShoppinglistIngredientDto';
 import { RecipeTableDropdownMenuComponent } from "../recipe-table-dropdown-menu/recipe-table-dropdown-menu.component";
-import { FormsModule } from '@angular/forms';
+import { FormControl, FormsModule } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { ShoppinglistActions } from '../../state/shoppinglist.actions';
@@ -43,11 +43,15 @@ export class RecipeTableComponent {
     }
 
     addToShoppinglist(shoppinglist: Shoppinglist, recipe: Recipe): void {
-        const updatedShoppinglist = this.addIngredientsToShoppinglist(shoppinglist, recipe);
+        const shoppinglistDto: UpdateShoppinglistDto = structuredClone(shoppinglist);
+        const updatedShoppinglist = this.addIngredientsToShoppinglist(shoppinglistDto, recipe);
 
         this.shoppinglistService.updateShoppinglist(shoppinglist.id, updatedShoppinglist).subscribe({
             next: () => {
-                ///TODO update the shoppinglist in the global state.
+                this.shoppinglistService.getAllShoppinglists().subscribe(shoppinglists => {
+                    this.store.dispatch(ShoppinglistActions.setShoppinglists({ shoppinglists: shoppinglists }))
+                })
+
                 const newAlert = { id: this.nextId++, message: `The shoppinglist: ${updatedShoppinglist.name} is successfully updated!`, type: 'success' };
                 this.showAlert(newAlert);
             },
@@ -105,12 +109,15 @@ export class RecipeTableComponent {
     }
 
     removeFromShoppinglist(shoppinglist: Shoppinglist, recipe: Recipe): void {
-        const shoppinglistDto = structuredClone(shoppinglist);
+        const shoppinglistDto: UpdateShoppinglistDto = structuredClone(shoppinglist);
         const updatedShoppinglist = this.removeIngredientsFromShoppinglist(shoppinglistDto, recipe);
 
         this.shoppinglistService.updateShoppinglist(shoppinglist.id, updatedShoppinglist).subscribe({
             next: () => {
-                ///TODO update the shoppinglist in the global state.
+                this.shoppinglistService.getAllShoppinglists().subscribe(shoppinglists => {
+                    this.store.dispatch(ShoppinglistActions.setShoppinglists({ shoppinglists: shoppinglists }))
+                })
+
                 const newAlert = { id: this.nextId++, message: `The shoppinglist: ${updatedShoppinglist.name} is successfully updated!`, type: 'success' };
                 this.showAlert(newAlert);
             },

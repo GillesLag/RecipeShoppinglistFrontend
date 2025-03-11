@@ -2,7 +2,7 @@ import { ApplicationConfig, provideZoneChangeDetection } from '@angular/core';
 import { provideRouter } from '@angular/router';
 import { routes } from './app.routes';
 import { provideHttpClient, withFetch } from '@angular/common/http';
-import { provideStore } from '@ngrx/store';
+import { provideState, provideStore } from '@ngrx/store';
 import { shoppinglistReducer } from '../app/state/shoppinglist.reducer'
 
 export const appConfig: ApplicationConfig = {
@@ -10,6 +10,7 @@ export const appConfig: ApplicationConfig = {
         provideZoneChangeDetection({ eventCoalescing: true }),
         provideRouter(routes),
         provideHttpClient(withFetch()),
-        provideStore({ shoppinglists: shoppinglistReducer }),
+        provideStore(),
+        provideState({ name: "shoppinglists", reducer: shoppinglistReducer })
     ]
 }
