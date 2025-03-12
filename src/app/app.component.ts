@@ -6,6 +6,8 @@ import { CommonModule } from '@angular/common';
 import { Store } from '@ngrx/store';
 import { ShoppinglistActions } from './state/shoppinglist.actions';
 import { Observable } from 'rxjs';
+import { selectShoppinglists } from './state/shoppinglist.selectors';
+import { AppState } from './state/appState';
 
 @Component({
     selector: 'app-root',
@@ -16,17 +18,13 @@ import { Observable } from 'rxjs';
 export class AppComponent implements OnInit {
     shoppinglistService = inject(ShoppinglistService)
 
-    shoppinglists!: Observable<Shoppinglist[]>;
+    shoppinglists$: Observable<ReadonlyArray<Shoppinglist>>;
 
-    constructor(private store: Store<{ shoppinglists: Shoppinglist[] }>) {
-
+    constructor(private store: Store<AppState>) {
+        this.shoppinglists$ = this.store.select(selectShoppinglists)
     }
 
     ngOnInit(): void {
-        this.shoppinglistService.getAllShoppinglists().subscribe(shoppinglists => {
-            this.store.dispatch(ShoppinglistActions.setShoppinglists({ shoppinglists: shoppinglists }))
-            this.shoppinglists = this.store.select(state => state.shoppinglists)
-        })
-
+        this.store.dispatch(ShoppinglistActions.loadShoppinglists())
     }
 }

@@ -14,8 +14,7 @@ import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { ShoppinglistActions } from '../../state/shoppinglist.actions';
 import { AppState } from '../../state/appState';
-import { selectShoppinglist, selectShoppinglistById } from '../../state/shoppinglist.selectors';
-import { shoppinglistDetailsComponent } from '../shoppinglist-details/shoppinglist-details.component';
+import { selectShoppinglists } from '../../state/shoppinglist.selectors';
 
 declare var bootstrap: any;
 
@@ -38,15 +37,13 @@ export class RecipeTableComponent {
     nextId: number = 0;
 
     constructor(private store: Store<AppState>) {
-        
+        this.shoppinglists$ = this.store.select(selectShoppinglists)
     }
 
     ngOnInit(): void {
         this.recipeService.getAllRecipes().subscribe(recipes => {
             this.recipes = recipes;
         });
-
-        this.shoppinglists$ = this.store.select(state => state.shoppinglists);
     }
 
     addToShoppinglist(shoppinglist: Shoppinglist, recipe: Recipe): void {

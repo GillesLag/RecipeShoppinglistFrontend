@@ -1,9 +1,14 @@
-import { createSelector } from "@ngrx/store";
-import { AppState } from "./appState";
+import { createFeature, createFeatureSelector, createSelector } from "@ngrx/store";
+import { AppState, ShoppinglistState } from "./appState";
 
-export const selectShoppinglist = (state: AppState) => state.shoppinglists;
+export const selectShoppinglistState = createFeatureSelector<AppState>('shoppinglists')
+
+export const selectShoppinglists = createSelector(
+    selectShoppinglistState,
+    (state) => state.shoppinglistState.shoppinglists
+)
 
 export const selectShoppinglistById = (id: number) => createSelector(
-    selectShoppinglist,
-    (shoppinglists) => shoppinglists.find(x => x.id === id)
+    selectShoppinglists,
+    shoppinglists => shoppinglists.find(x => x.id === id)
 );

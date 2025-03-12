@@ -31,7 +31,7 @@
                         Shoppinglists
                     </a>
                     <ul class="dropdown-menu">
-                        <li *ngFor="let shoppinglist of shoppinglists | async">
+                        <li *ngFor="let shoppinglist of shoppinglists$ | async">
                             <a
                                 class="dropdown-item"
                                 [routerLink]="['/shoppinglistDetail', shoppinglist.id]"

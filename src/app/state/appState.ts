@@ -1,5 +1,10 @@
 import { Shoppinglist } from "../models/Shoppinglist";
 
 export interface AppState{
-    shoppinglists: ReadonlyArray<Shoppinglist>;
+    shoppinglistState: ShoppinglistState
+}
+
+export interface ShoppinglistState{
+    shoppinglists: ReadonlyArray<Shoppinglist>,
+    error: string | null,
 }
