@@ -9,10 +9,15 @@ import { RecipeTableItemComponent } from '../recipe-table-item/recipe-table-item
 import { UpdateShoppinglistDto } from '../../models/dtos/UpdateShoppinglistDto';
 import { UpdateShoppinglistIngredientDto } from '../../models/dtos/UpdateShoppinglistIngredientDto';
 import { RecipeTableDropdownMenuComponent } from "../recipe-table-dropdown-menu/recipe-table-dropdown-menu.component";
-import { FormControl, FormsModule } from '@angular/forms';
+import { FormsModule } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { ShoppinglistActions } from '../../state/shoppinglist.actions';
+import { AppState } from '../../state/appState';
+import { selectShoppinglist, selectShoppinglistById } from '../../state/shoppinglist.selectors';
+import { shoppinglistDetailsComponent } from '../shoppinglist-details/shoppinglist-details.component';
+
+declare var bootstrap: any;
 
 @Component({
     selector: 'recipe-table',
@@ -23,14 +28,16 @@ export class RecipeTableComponent {
     recipeService = inject(RecipesService)
     shoppinglistService = inject(ShoppinglistService)
 
+    recipeToDelete: Recipe | null = null;
     shoppinglistName: string = '';
+    myModal: any;
 
     recipes: Recipe[] = [];
-    shoppinglists!: Observable<Shoppinglist[]>;
+    shoppinglists$!: Observable<ReadonlyArray<Shoppinglist>>;
     alerts: { id: number, message: string, type: string }[] = []
     nextId: number = 0;
 
-    constructor(private store: Store<{shoppinglists: Shoppinglist[]}>) {
+    constructor(private store: Store<AppState>) {
         
     }
 
@@ -39,7 +46,7 @@ export class RecipeTableComponent {
             this.recipes = recipes;
         });
 
-        this.shoppinglists = this.store.select(state => state.shoppinglists)
+        this.shoppinglists$ = this.store.select(state => state.shoppinglists);
     }
 
     addToShoppinglist(shoppinglist: Shoppinglist, recipe: Recipe): void {
@@ -47,10 +54,8 @@ export class RecipeTableComponent {
         const updatedShoppinglist = this.addIngredientsToShoppinglist(shoppinglistDto, recipe);
 
         this.shoppinglistService.updateShoppinglist(shoppinglist.id, updatedShoppinglist).subscribe({
-            next: () => {
-                this.shoppinglistService.getAllShoppinglists().subscribe(shoppinglists => {
-                    this.store.dispatch(ShoppinglistActions.setShoppinglists({ shoppinglists: shoppinglists }))
-                })
+            next: (shoppinglist) => {
+                this.store.dispatch(ShoppinglistActions.updateShoppinglist({ shoppinglist: shoppinglist }))
 
                 const newAlert = { id: this.nextId++, message: `The shoppinglist: ${updatedShoppinglist.name} is successfully updated!`, type: 'success' };
                 this.showAlert(newAlert);
@@ -103,9 +108,21 @@ export class RecipeTableComponent {
         this.alerts = this.alerts.filter(alert => alert.id !== id)
     }
 
-    deleteRecipe(id: number): void {
-        this.recipeService.deleteRecipe(id).subscribe();
-        this.recipes = this.recipes.filter(x => x.id !== id);
+    deleteRecipe(recipe: Recipe): void {
+        this.recipeToDelete = recipe;
+
+        this.myModal = new bootstrap.Modal(document.getElementById('deleteModal'))
+        this.myModal.show();
+    }
+
+    confirmDelete(): void {
+        if (this.recipeToDelete){
+            this.recipeService.deleteRecipe(this.recipeToDelete.id).subscribe();
+            this.recipes = this.recipes.filter(x => x.id !== this.recipeToDelete!.id);
+        }
+
+        this.myModal.hide();
+        this.recipeToDelete = null;
     }
 
     removeFromShoppinglist(shoppinglist: Shoppinglist, recipe: Recipe): void {
@@ -113,10 +130,8 @@ export class RecipeTableComponent {
         const updatedShoppinglist = this.removeIngredientsFromShoppinglist(shoppinglistDto, recipe);
 
         this.shoppinglistService.updateShoppinglist(shoppinglist.id, updatedShoppinglist).subscribe({
-            next: () => {
-                this.shoppinglistService.getAllShoppinglists().subscribe(shoppinglists => {
-                    this.store.dispatch(ShoppinglistActions.setShoppinglists({ shoppinglists: shoppinglists }))
-                })
+            next: (shoppinglist) => {
+                this.store.dispatch(ShoppinglistActions.updateShoppinglist({ shoppinglist: shoppinglist }))
 
                 const newAlert = { id: this.nextId++, message: `The shoppinglist: ${updatedShoppinglist.name} is successfully updated!`, type: 'success' };
                 this.showAlert(newAlert);

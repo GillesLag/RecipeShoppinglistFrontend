@@ -17,7 +17,7 @@
                             {{item.ingredient.name}}</label>
                     </div>
 
-                    <button type="button" class="btn btn-danger">Delete</button>
+                    <button type="button" (click)="removeIngredient(item.id)" class="btn btn-danger">Delete</button>
                 </li>
             </ul>
         </div>

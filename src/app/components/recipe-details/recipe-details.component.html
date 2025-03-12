@@ -9,7 +9,7 @@
             <ul class="list-unstyled">
                 <li *ngFor="let ingredient of recipe.recipeIngredients">
                     {{ingredient.quantity}}{{measurementList[ingredient.measurement].toLowerCase()}}
-                    {{ingredient.ingredient?.name}}
+                    {{ingredient.ingredient.name}}
                 </li>
             </ul>
             <div class="mt-4">

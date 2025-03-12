@@ -7,5 +7,7 @@ export const ShoppinglistActions = createActionGroup({
         'Add Shoppinglist': props<{ shoppinglist: Shoppinglist }>(),
         'Remove Shoppinglist': props<{ shoppinglistId: number }>(),
         'Set Shoppinglists': props<{ shoppinglists: Shoppinglist[] }>(),
+        'Update Shoppinglist': props<{ shoppinglist: Shoppinglist}>(),
+        'Remove Ingredient': props<{ shoppinglistId: number, ingredientId: number }>()
     }
 });

@@ -7,11 +7,10 @@ import { Observable } from 'rxjs';
   selector: 'app-recipe-table-dropdown-menu',
   imports: [CommonModule],
   templateUrl: './recipe-table-dropdown-menu.component.html',
-  styleUrl: './recipe-table-dropdown-menu.component.css'
 })
 export class RecipeTableDropdownMenuComponent {
     onUpdateShoppinglist = output<Shoppinglist>()
-    shoppinglists = input.required<Observable<Shoppinglist[]>>()
+    shoppinglists = input.required<Observable<ReadonlyArray<Shoppinglist>>>()
     text = input.required<string>();
 
     updateShoppinglist(shoppinglist: Shoppinglist): void {

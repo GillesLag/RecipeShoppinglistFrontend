@@ -24,8 +24,8 @@ export class ShoppinglistService {
         return this.httpClient.get<Shoppinglist>(`${this.baseUrl}/GetById/${id}`);
     }
 
-    updateShoppinglist(id: number, shoppinglist: UpdateShoppinglistDto): Observable<void> {
-        return this.httpClient.put<void>(`${this.baseUrl}/UpdateShoppinglist/${id}`, shoppinglist)
+    updateShoppinglist(id: number, shoppinglist: UpdateShoppinglistDto): Observable<Shoppinglist> {
+        return this.httpClient.put<Shoppinglist>(`${this.baseUrl}/UpdateShoppinglist/${id}`, shoppinglist)
     }
 
     createShoppinglist(shoppinglist: CreateShoppinglistDto): Observable<Shoppinglist>{

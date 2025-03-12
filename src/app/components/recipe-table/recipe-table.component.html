@@ -14,7 +14,7 @@
             <td>
                 <div class="row">
                     <div class="col-auto">
-                        <app-recipe-table-dropdown-menu [shoppinglists]="shoppinglists" text="Add To"
+                        <app-recipe-table-dropdown-menu [shoppinglists]="shoppinglists$" text="Add To"
                             (onUpdateShoppinglist)="addToShoppinglist($event, recipe)">
                             <li>
                                 <button class="dropdown-item" data-bs-toggle="modal"
@@ -25,7 +25,7 @@
                         </app-recipe-table-dropdown-menu>
                     </div>
                     <div class="col-auto">
-                        <app-recipe-table-dropdown-menu [shoppinglists]="shoppinglists" text="Remove From"
+                        <app-recipe-table-dropdown-menu [shoppinglists]="shoppinglists$" text="Remove From"
                             (onUpdateShoppinglist)="removeFromShoppinglist($event, recipe)" />
                     </div>
                 </div>
@@ -35,7 +35,7 @@
                 <a class="btn btn-primary col" [routerLink]="['/recipeDetail', recipe.id]">Cooking Instructions</a>
             </td>
             <td>
-                <button (click)="deleteRecipe(recipe.id!)" type="button" class="btn btn-danger">Delete</button>
+                <button (click)="deleteRecipe(recipe)" type="button" class="btn btn-danger">Delete</button>
             </td>
         </tr>
     </tbody>
@@ -78,3 +78,22 @@
         </div>
     </div>
 </div>
+
+<!--Delete modal-->
+<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="false">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="deleteModalLabel">Confirm Deletion</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="close"></button>
+        </div>
+        <div class="modal-body">
+          Are you sure you want to delete <strong>{{ recipeToDelete?.name }}</strong>?
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+          <button type="button" class="btn btn-danger" (click)="confirmDelete()">Delete</button>
+        </div>
+      </div>
+    </div>
+  </div>
