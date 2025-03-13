@@ -46,7 +46,7 @@ export class RecipeTableComponent {
 
     addToShoppinglist(shoppinglist: Shoppinglist, recipe: Recipe): void {
         const updatedShoppinglist = this.shoppinglistService.addIngredientsToShoppinglist(shoppinglist, recipe);
-        
+
         this.store.dispatch(ShoppinglistActions.updateShoppinglist({ updatedShoppinglist: updatedShoppinglist }))
     }
 
@@ -70,6 +70,7 @@ export class RecipeTableComponent {
     removeFromShoppinglist(shoppinglist: Shoppinglist, recipe: Recipe): void {
         const shoppinglistDto: UpdateShoppinglistDto = structuredClone(shoppinglist);
         const updatedShoppinglist = this.shoppinglistService.removeIngredientsFromShoppinglist(shoppinglistDto, recipe)
+        console.log(updatedShoppinglist)
 
         this.store.dispatch(ShoppinglistActions.updateShoppinglist({ updatedShoppinglist: updatedShoppinglist }))
     }

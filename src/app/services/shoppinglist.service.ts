@@ -35,7 +35,7 @@ export class ShoppinglistService {
     }
 
     addIngredientsToShoppinglist(shoppinglist: Shoppinglist, recipe: Recipe): UpdateShoppinglistDto {
-        const shoppinglistDto: UpdateShoppinglistDto = {...shoppinglist}
+        const shoppinglistDto: UpdateShoppinglistDto = structuredClone(shoppinglist)
         shoppinglistDto.shoppinglistIngredients = [...shoppinglist.shoppinglistIngredients]
 
         for (let index = 0; index < recipe.recipeIngredients.length; index++) {
@@ -46,8 +46,20 @@ export class ShoppinglistService {
 
             const shoppinglistIngredient = shoppinglistDto.shoppinglistIngredients.find(x => x.ingredientId === recipeIngredient.ingredientId)
 
+            ///TODO fix immutable bug, cant add anything to shopping list if the ingredient allready existin the shoppinglist.
             if (shoppinglistIngredient) {
-                shoppinglistIngredient.quantity += recipeIngredient.quantity;
+                const updatedShoppinglistIngredient = {
+                    ...shoppinglistIngredient,
+                    quantity: shoppinglistIngredient.quantity + recipeIngredient.quantity
+                }
+
+                console.log(shoppinglistDto)
+
+
+                shoppinglistDto.shoppinglistIngredients.map(ingredient => ingredient.id === updatedShoppinglistIngredient.id ? updatedShoppinglistIngredient : ingredient)
+
+                console.log(shoppinglistDto)
+
             } else {
                 let newItem: UpdateShoppinglistIngredientDto =
                 {
