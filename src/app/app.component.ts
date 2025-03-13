@@ -1,23 +1,21 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { RouterLink, RouterOutlet } from '@angular/router';
-import { ShoppinglistService } from './services/shoppinglist.service';
 import { Shoppinglist } from './models/Shoppinglist';
 import { CommonModule } from '@angular/common';
 import { Store } from '@ngrx/store';
-import { ShoppinglistActions } from './state/shoppinglist.actions';
+import { ShoppinglistActions } from './state/actions/shoppinglist.actions';
 import { Observable } from 'rxjs';
-import { selectShoppinglists } from './state/shoppinglist.selectors';
+import { selectShoppinglists } from './state/selectors/shoppinglist.selectors';
 import { AppState } from './state/appState';
+import { AlertComponent } from './components/alert/alert.component';
 
 @Component({
     selector: 'app-root',
-    imports: [RouterOutlet, RouterLink, CommonModule],
+    imports: [RouterOutlet, RouterLink, CommonModule, AlertComponent],
     templateUrl: './app.component.html',
 })
 
 export class AppComponent implements OnInit {
-    shoppinglistService = inject(ShoppinglistService)
-
     shoppinglists$: Observable<ReadonlyArray<Shoppinglist>>;
 
     constructor(private store: Store<AppState>) {

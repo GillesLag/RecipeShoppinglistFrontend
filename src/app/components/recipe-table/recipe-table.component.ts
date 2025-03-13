@@ -12,9 +12,9 @@ import { RecipeTableDropdownMenuComponent } from "../recipe-table-dropdown-menu/
 import { FormsModule } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { ShoppinglistActions } from '../../state/shoppinglist.actions';
+import { ShoppinglistActions } from '../../state/actions/shoppinglist.actions';
 import { AppState } from '../../state/appState';
-import { selectShoppinglists } from '../../state/shoppinglist.selectors';
+import { selectShoppinglists } from '../../state/selectors/shoppinglist.selectors';
 
 declare var bootstrap: any;
 
@@ -33,8 +33,6 @@ export class RecipeTableComponent {
 
     recipes: Recipe[] = [];
     shoppinglists$!: Observable<ReadonlyArray<Shoppinglist>>;
-    alerts: { id: number, message: string, type: string }[] = []
-    nextId: number = 0;
 
     constructor(private store: Store<AppState>) {
         this.shoppinglists$ = this.store.select(selectShoppinglists)
@@ -47,62 +45,9 @@ export class RecipeTableComponent {
     }
 
     addToShoppinglist(shoppinglist: Shoppinglist, recipe: Recipe): void {
-        const shoppinglistDto: UpdateShoppinglistDto = structuredClone(shoppinglist);
-        const updatedShoppinglist = this.addIngredientsToShoppinglist(shoppinglistDto, recipe);
-
-        this.shoppinglistService.updateShoppinglist(shoppinglist.id, updatedShoppinglist).subscribe({
-            next: (shoppinglist) => {
-                this.store.dispatch(ShoppinglistActions.updateShoppinglist({ shoppinglist: shoppinglist }))
-
-                const newAlert = { id: this.nextId++, message: `The shoppinglist: ${updatedShoppinglist.name} is successfully updated!`, type: 'success' };
-                this.showAlert(newAlert);
-            },
-            error: (err) => {
-                const newAlert = { id: this.nextId++, message: `There was an error when updating the shoppinglist: ${updatedShoppinglist.name}`, type: 'danger' };
-                this.showAlert(newAlert)
-            }
-        });
-    }
-
-    private addIngredientsToShoppinglist(shoppinglistDto: UpdateShoppinglistDto, recipe: Recipe): UpdateShoppinglistDto {
-        for (let index = 0; index < recipe.recipeIngredients.length; index++) {
-            const recipeIngredient = recipe.recipeIngredients[index];
-            if (!recipeIngredient.isChecked) {
-                continue;
-            }
-
-            const shoppinglistIngredient = shoppinglistDto.shoppinglistIngredients.find(x => x.ingredientId === recipeIngredient.ingredientId)
-
-            if (shoppinglistIngredient) {
-                shoppinglistIngredient.quantity += recipeIngredient.quantity;
-            } else {
-                let newItem: UpdateShoppinglistIngredientDto =
-                {
-                    id: undefined,
-                    shoppinglistId: shoppinglistDto.id,
-                    ingredientId: Number(recipeIngredient.ingredientId),
-                    isChecked: false,
-                    quantity: recipeIngredient.quantity,
-                    measurement: recipeIngredient.measurement,
-                };
-
-                shoppinglistDto.shoppinglistIngredients.push(newItem);
-            }
-        }
-
-        return shoppinglistDto
-    }
-
-    private showAlert(alert: { id: number, message: string, type: string }): void {
-        this.alerts.push(alert);
-
-        setTimeout(() => {
-            this.alerts = this.alerts.filter(x => x.id !== alert.id);
-        }, 5000);
-    }
-
-    removeAlert(id: number): void {
-        this.alerts = this.alerts.filter(alert => alert.id !== id)
+        const updatedShoppinglist = this.shoppinglistService.addIngredientsToShoppinglist(shoppinglist, recipe);
+        
+        this.store.dispatch(ShoppinglistActions.updateShoppinglist({ updatedShoppinglist: updatedShoppinglist }))
     }
 
     deleteRecipe(recipe: Recipe): void {
@@ -124,43 +69,9 @@ export class RecipeTableComponent {
 
     removeFromShoppinglist(shoppinglist: Shoppinglist, recipe: Recipe): void {
         const shoppinglistDto: UpdateShoppinglistDto = structuredClone(shoppinglist);
-        const updatedShoppinglist = this.removeIngredientsFromShoppinglist(shoppinglistDto, recipe);
+        const updatedShoppinglist = this.shoppinglistService.removeIngredientsFromShoppinglist(shoppinglistDto, recipe)
 
-        this.shoppinglistService.updateShoppinglist(shoppinglist.id, updatedShoppinglist).subscribe({
-            next: (shoppinglist) => {
-                this.store.dispatch(ShoppinglistActions.updateShoppinglist({ shoppinglist: shoppinglist }))
-
-                const newAlert = { id: this.nextId++, message: `The shoppinglist: ${updatedShoppinglist.name} is successfully updated!`, type: 'success' };
-                this.showAlert(newAlert);
-            },
-            error: (err) => {
-                const newAlert = { id: this.nextId++, message: `There was an error when updating the shoppinglist: ${updatedShoppinglist.name}`, type: 'danger' };
-                this.showAlert(newAlert)
-            }
-        })
-    }
-
-    private removeIngredientsFromShoppinglist(shoppinglistDto: UpdateShoppinglistDto, recipe: Recipe): UpdateShoppinglistDto {
-        for (let index = 0; index < recipe.recipeIngredients.length; index++) {
-            const recipeIngredient = recipe.recipeIngredients[index];
-            if (!recipeIngredient.isChecked) {
-                continue;
-            }
-
-            const shoppinglistIngredient = shoppinglistDto.shoppinglistIngredients.find(x => x.ingredientId === recipeIngredient.ingredientId)
-
-            if (!shoppinglistIngredient) {
-                continue;
-            }
-
-            shoppinglistIngredient.quantity -= recipeIngredient.quantity;
-            if (shoppinglistIngredient.quantity <= 0) {
-                shoppinglistDto.shoppinglistIngredients = shoppinglistDto.shoppinglistIngredients.filter(x => x.id !== shoppinglistIngredient.id)
-            }
-
-        }
-
-        return shoppinglistDto
+        this.store.dispatch(ShoppinglistActions.updateShoppinglist({ updatedShoppinglist: updatedShoppinglist }))
     }
 
     createShoppinglist(): void {
@@ -168,17 +79,8 @@ export class RecipeTableComponent {
             return;
         }
 
-        this.shoppinglistService.createShoppinglist({ name: this.shoppinglistName }).subscribe({
-            next: (shoppinglist) => {
-                this.showAlert({ id: this.nextId++, message: `New Shoppinglist ${this.shoppinglistName} successfully created`, type: 'success' })
-                this.store.dispatch(ShoppinglistActions.addShoppinglist({ shoppinglist: shoppinglist }));
-            },
-            error: () => {
-                this.showAlert({ id: this.nextId++, message: `Failed To Create Shoppinglist: ${this.shoppinglistName}`, type: 'danger' })
-            },
-            complete: () => {
-                this.shoppinglistName = '';
-            }
-        })
+        this.store.dispatch(ShoppinglistActions.createShoppinglist({newShoppinglist: {name: this.shoppinglistName}}))
+
+        this.shoppinglistName = '';
     }
 }

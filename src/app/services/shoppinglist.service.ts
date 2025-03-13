@@ -4,6 +4,8 @@ import { Observable } from 'rxjs';
 import { Shoppinglist } from '../models/Shoppinglist';
 import { UpdateShoppinglistDto } from '../models/dtos/UpdateShoppinglistDto';
 import { CreateShoppinglistDto } from '../models/dtos/CreateShoppinglistDto';
+import { UpdateShoppinglistIngredientDto } from '../models/dtos/UpdateShoppinglistIngredientDto';
+import { Recipe } from '../models/Recipe';
 
 @Injectable({
     providedIn: 'root'
@@ -30,5 +32,60 @@ export class ShoppinglistService {
 
     createShoppinglist(shoppinglist: CreateShoppinglistDto): Observable<Shoppinglist>{
         return this.httpClient.post<Shoppinglist>(`${this.baseUrl}/Add`, shoppinglist);
+    }
+
+    addIngredientsToShoppinglist(shoppinglist: Shoppinglist, recipe: Recipe): UpdateShoppinglistDto {
+        const shoppinglistDto: UpdateShoppinglistDto = {...shoppinglist}
+        shoppinglistDto.shoppinglistIngredients = [...shoppinglist.shoppinglistIngredients]
+
+        for (let index = 0; index < recipe.recipeIngredients.length; index++) {
+            const recipeIngredient = recipe.recipeIngredients[index];
+            if (!recipeIngredient.isChecked) {
+                continue;
+            }
+
+            const shoppinglistIngredient = shoppinglistDto.shoppinglistIngredients.find(x => x.ingredientId === recipeIngredient.ingredientId)
+
+            if (shoppinglistIngredient) {
+                shoppinglistIngredient.quantity += recipeIngredient.quantity;
+            } else {
+                let newItem: UpdateShoppinglistIngredientDto =
+                {
+                    id: undefined,
+                    shoppinglistId: shoppinglistDto.id,
+                    ingredientId: recipeIngredient.ingredientId,
+                    isChecked: false,
+                    quantity: recipeIngredient.quantity,
+                    measurement: recipeIngredient.measurement,
+                };
+
+                shoppinglistDto.shoppinglistIngredients.push(newItem);
+            }
+        }
+        
+        return shoppinglistDto
+    }
+
+    removeIngredientsFromShoppinglist(shoppinglistDto: UpdateShoppinglistDto, recipe: Recipe): UpdateShoppinglistDto {
+        for (let index = 0; index < recipe.recipeIngredients.length; index++) {
+            const recipeIngredient = recipe.recipeIngredients[index];
+            if (!recipeIngredient.isChecked) {
+                continue;
+            }
+
+            const shoppinglistIngredient = shoppinglistDto.shoppinglistIngredients.find(x => x.ingredientId === recipeIngredient.ingredientId)
+
+            if (!shoppinglistIngredient) {
+                continue;
+            }
+
+            shoppinglistIngredient.quantity -= recipeIngredient.quantity;
+            if (shoppinglistIngredient.quantity <= 0) {
+                shoppinglistDto.shoppinglistIngredients = shoppinglistDto.shoppinglistIngredients.filter(x => x.id !== shoppinglistIngredient.id)
+            }
+
+        }
+
+        return shoppinglistDto
     }
 }
