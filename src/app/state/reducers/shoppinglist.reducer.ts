@@ -35,6 +35,15 @@ export const shoppinglistReducer = createReducer(
     on(ShoppinglistActions.createShopppinglistFailure, (state, { error }) => ({
         ...state,
         error
+    })),
+    on(ShoppinglistActions.deleteShoppinglistSuccess, (state, { id }) => ({
+        ...state,
+        shoppinglists: state.shoppinglists.filter(x => x.id !== id),
+        error: null
+    })),
+    on(ShoppinglistActions.deleteShoppinglistFailure, (state, { error }) => ({
+        ...state,
+        error
     }))
     
 )

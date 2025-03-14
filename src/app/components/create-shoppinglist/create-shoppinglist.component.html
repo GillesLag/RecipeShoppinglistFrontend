@@ -1,0 +1,27 @@
+<div class="modal fade" id="createShoppinglist" tabindex="-1" aria-labelledby="createShoppinglistLabel"
+    aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="createShoppinglistLabel">New Shoppinglist</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="createModal" aria-label="Close"></button>
+            </div>
+            <form (ngSubmit)="createShoppinglist()">
+                <div class="modal-body">
+                    <div class="row g-3 align-items-center">
+                        <div class="col-auto">
+                            <label for="shoppinglistName" class="col-form-label">Name</label>
+                        </div>
+                        <div class="col-auto">
+                            <input type="text" required="true" id="shoppinglistName" class="form-control" name="shoppinglistName" [(ngModel)]="shoppinglistName"/>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="createModal">Close</button>
+                    <button type="submit" class="btn btn-primary" data-bs-dismiss="createModal">Create Shoppinglist</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

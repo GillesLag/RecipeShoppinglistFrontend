@@ -14,6 +14,9 @@ export const ShoppinglistActions = createActionGroup({
         'Update Shoppinglist Failure': props<{ error: string }>(),
         'Create Shoppinglist': props<{ newShoppinglist: CreateShoppinglistDto }>(),
         'Create Shoppinglist Success': props<{ shoppinglist: Shoppinglist }>(),
-        'Create Shopppinglist Failure': props<{ error: string }>()
+        'Create Shopppinglist Failure': props<{ error: string }>(),
+        'Delete Shoppinglist': props<{ id: number }>(),
+        'Delete Shoppinglist Success': props<{ id: number }>(),
+        'Delete Shoppinglist Failure': props<{ error: string}>()
     }
 });

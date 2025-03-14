@@ -31,6 +31,12 @@
                         Shoppinglists
                     </a>
                     <ul class="dropdown-menu">
+                        <li>
+                            <button class="dropdown-item" data-bs-toggle="modal"
+                                data-bs-target="#createShoppinglist">
+                                + New Shoppinglist
+                            </button>
+                        </li>
                         <li *ngFor="let shoppinglist of shoppinglists$ | async">
                             <a
                                 class="dropdown-item"
@@ -52,3 +58,5 @@
     <app-alert></app-alert>
     <router-outlet></router-outlet>
 </main>
+
+<app-create-shoppinglist></app-create-shoppinglist>

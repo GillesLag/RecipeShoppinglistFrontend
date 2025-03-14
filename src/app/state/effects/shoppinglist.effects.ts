@@ -49,4 +49,14 @@ export class ShoppinglistEffects {
             ))
         ))
     });
+
+    deleteShoppinglist$ = createEffect(() => {
+        return this.actions$.pipe(
+            ofType(ShoppinglistActions.deleteShoppinglist),
+            mergeMap(({id}) => this.shoppinglistService.deleteShoppinglist(id).pipe(
+                map(id => ShoppinglistActions.deleteShoppinglistSuccess({id})),
+                catchError(error => of(ShoppinglistActions.deleteShoppinglistFailure({error: error.message})))
+            ))
+        )
+    })
 }

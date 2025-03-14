@@ -1,26 +1,30 @@
 import { Component, inject, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { Shoppinglist } from '../../models/Shoppinglist';
 import { Measurement } from '../../Enums/Measurement';
 import { AppState } from '../../state/appState';
 import { Store } from '@ngrx/store';
 import { ShoppinglistActions } from '../../state/actions/shoppinglist.actions';
-import { BehaviorSubject, map, Observable, take } from 'rxjs';
 import { ShoppinglistService } from '../../services/shoppinglist.service';
+
+declare var bootstrap: any;
 
 @Component({
     selector: 'app-recipe-details',
     imports: [CommonModule],
     templateUrl: './shoppinglist-details.component.html',
 })
+
 export class shoppinglistDetailsComponent implements OnInit {
     shoppinglistService = inject(ShoppinglistService)
 
     shoppinglist : Shoppinglist | null = null
     measurementList: string[] = Object.keys(Measurement).filter(key => isNaN(Number(key)))
 
-    constructor(private route: ActivatedRoute, private store: Store<AppState>) {
+    deleteModal: any;
+
+    constructor(private route: ActivatedRoute, private router: Router, private store: Store<AppState>) {
 
     }
 
@@ -47,5 +51,18 @@ export class shoppinglistDetailsComponent implements OnInit {
     
             this.shoppinglist = updatedShoppinglist
         }
+    }
+
+    deleteShoppinglist(): void {
+        this.deleteModal = new bootstrap.Modal(document.getElementById('deleteModal'))
+        this.deleteModal.show();
+    }
+
+    confirmDeleteShoppinglist(): void {
+        this.store.dispatch(ShoppinglistActions.deleteShoppinglist({id: this.shoppinglist!.id}))
+        this.deleteModal.hide();
+
+        this.router.navigateByUrl('/');
+
     }
 }

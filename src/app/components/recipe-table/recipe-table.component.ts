@@ -15,14 +15,17 @@ import { Observable } from 'rxjs';
 import { ShoppinglistActions } from '../../state/actions/shoppinglist.actions';
 import { AppState } from '../../state/appState';
 import { selectShoppinglists } from '../../state/selectors/shoppinglist.selectors';
+import { CreateShoppinglistComponent } from "../create-shoppinglist/create-shoppinglist.component";
+import { DeleteModalComponent } from "../delete-modal/delete-modal.component";
 
 declare var bootstrap: any;
 
 @Component({
     selector: 'recipe-table',
-    imports: [CommonModule, RouterLink, RecipeTableItemComponent, RecipeTableDropdownMenuComponent, FormsModule],
+    imports: [CommonModule, RouterLink, RecipeTableItemComponent, RecipeTableDropdownMenuComponent, FormsModule, CreateShoppinglistComponent, DeleteModalComponent],
     templateUrl: './recipe-table.component.html',
 })
+
 export class RecipeTableComponent {
     recipeService = inject(RecipesService)
     shoppinglistService = inject(ShoppinglistService)
@@ -52,19 +55,10 @@ export class RecipeTableComponent {
 
     deleteRecipe(recipe: Recipe): void {
         this.recipeToDelete = recipe;
-
-        this.myModal = new bootstrap.Modal(document.getElementById('deleteModal'))
-        this.myModal.show();
     }
 
-    confirmDelete(): void {
-        if (this.recipeToDelete){
-            this.recipeService.deleteRecipe(this.recipeToDelete.id).subscribe();
-            this.recipes = this.recipes.filter(x => x.id !== this.recipeToDelete!.id);
-        }
-
-        this.myModal.hide();
-        this.recipeToDelete = null;
+    confirmDelete(){
+        this.recipeService.deleteRecipe(this.recipeToDelete!.id);
     }
 
     removeFromShoppinglist(shoppinglist: Shoppinglist, recipe: Recipe): void {
