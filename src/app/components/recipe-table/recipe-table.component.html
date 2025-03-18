@@ -17,7 +17,7 @@
                         <app-recipe-table-dropdown-menu [shoppinglists]="shoppinglists$" text="Add To"
                             (onUpdateShoppinglist)="addToShoppinglist($event, recipe)">
                             <li>
-                                <button class="dropdown-item" data-bs-toggle="createModal"
+                                <button class="dropdown-item" data-bs-toggle="modal"
                                     data-bs-target="#createShoppinglist">
                                     + New Shoppinglist
                                 </button>
@@ -41,5 +41,4 @@
     </tbody>
 </table>
 
-<app-create-shoppinglist></app-create-shoppinglist>
 <app-delete-modal [elementName]="recipeToDelete?.name" (onDelete)="confirmDelete()"></app-delete-modal>
