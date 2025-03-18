@@ -1,4 +1,4 @@
-<table class="table">
+<table class="table table-extra">
     <thead>
         <tr>
             <th>Recipe</th>
@@ -35,7 +35,7 @@
                 <a class="btn btn-primary col" [routerLink]="['/recipeDetail', recipe.id]">Cooking Instructions</a>
             </td>
             <td>
-                <button data-bs-toggle="deleteModal" data-bs-target="#deleteModal" (click)="deleteRecipe(recipe)" class="btn btn-danger">Delete</button>
+                <button data-bs-toggle="modal" data-bs-target="#deleteModal" (click)="deleteRecipe(recipe)" class="btn btn-danger">Delete</button>
             </td>
         </tr>
     </tbody>

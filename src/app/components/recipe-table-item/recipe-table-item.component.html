@@ -9,10 +9,10 @@
         <div id="{{recipe().id}}" class="accordion-collapse collapse">
             <div class="accordion-body">
                 <div class="row g-3 align-items-center">
-                    <div class="col-2">
+                    <div class="col-3">
                         <label><strong>Servings:</strong></label>
                     </div>
-                    <div class="col-2">
+                    <div class="col-3">
                         <input [value]="recipe().servings" (change)="(updateQuantities($event))" min="1" class="form-control form-control-sm" type="number" />
                     </div>
                 </div>

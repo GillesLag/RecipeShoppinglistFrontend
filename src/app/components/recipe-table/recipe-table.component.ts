@@ -20,6 +20,7 @@ import { DeleteModalComponent } from "../delete-modal/delete-modal.component";
     selector: 'recipe-table',
     imports: [CommonModule, RouterLink, RecipeTableItemComponent, RecipeTableDropdownMenuComponent, FormsModule, DeleteModalComponent],
     templateUrl: './recipe-table.component.html',
+    styleUrl: './recipe-table.component.css'
 })
 
 export class RecipeTableComponent {
@@ -53,7 +54,8 @@ export class RecipeTableComponent {
     }
 
     confirmDelete(){
-        this.recipeService.deleteRecipe(this.recipeToDelete!.id);
+        this.recipeService.deleteRecipe(this.recipeToDelete!.id).subscribe();
+        this.recipes = this.recipes.filter(x => x.id !== this.recipeToDelete?.id)
     }
 
     removeFromShoppinglist(shoppinglist: Shoppinglist, recipe: Recipe): void {

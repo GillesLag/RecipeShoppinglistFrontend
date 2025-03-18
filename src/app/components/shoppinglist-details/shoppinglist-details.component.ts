@@ -7,17 +7,22 @@ import { AppState } from '../../state/appState';
 import { Store } from '@ngrx/store';
 import { ShoppinglistActions } from '../../state/actions/shoppinglist.actions';
 import { ShoppinglistService } from '../../services/shoppinglist.service';
+import { ShoppinglistIngredientService } from '../../services/shoppinglist-ingredient.service';
+import { ShoppinglistIngredient } from '../../models/ShoppinglistIngredient';
+import { UpdateShoppinglistIngredientDto } from '../../models/dtos/UpdateShoppinglistIngredientDto';
+import { FormsModule } from '@angular/forms';
 
 declare var bootstrap: any;
 
 @Component({
     selector: 'app-recipe-details',
-    imports: [CommonModule],
+    imports: [CommonModule, FormsModule],
     templateUrl: './shoppinglist-details.component.html',
 })
 
 export class shoppinglistDetailsComponent implements OnInit {
     shoppinglistService = inject(ShoppinglistService)
+    shoppinglistIngredientService = inject(ShoppinglistIngredientService)
 
     shoppinglist : Shoppinglist | null = null
     measurementList: string[] = Object.keys(Measurement).filter(key => isNaN(Number(key)))
@@ -64,5 +69,9 @@ export class shoppinglistDetailsComponent implements OnInit {
 
         this.router.navigateByUrl('/');
 
+    }
+
+    updateIngredient(id: number, ingredientDto: UpdateShoppinglistIngredientDto): void {
+        this.shoppinglistIngredientService.updateIngredient(id, ingredientDto).subscribe();
     }
 }

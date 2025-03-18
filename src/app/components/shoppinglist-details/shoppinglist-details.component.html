@@ -12,13 +12,13 @@
                 <li *ngFor="let item of shoppinglist?.shoppinglistIngredients; let i =index"
                     class="list-group-item d-flex justify-content-between align-items-start">
                     <div>
-                        <input class="form-check-input me-1" type="checkbox" value="" id="ingredients{{i}}">
+                        <input class="form-check-input me-1" type="checkbox" value="" [(ngModel)]="item.isChecked" (change)="updateIngredient(item.id, item)" id="ingredients{{i}}">
                         <label class="form-check-label fw-bold" for="ingredients{{i}}">
                             {{item.quantity}}{{measurementList[item.measurement].toLowerCase()}}
                             {{item.ingredient.name}}</label>
                     </div>
 
-                    <button type="button" (click)="removeIngredient(item.id)" class="btn btn-danger">Delete</button>
+                    <button type="button" (click)="removeIngredient(item.id)" class="btn btn-outline-danger">Delete</button>
                 </li>
             </ul>
         </div>
