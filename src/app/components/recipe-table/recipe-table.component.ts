@@ -29,19 +29,23 @@ export class RecipeTableComponent {
 
     recipeToDelete: Recipe | null = null;
     shoppinglistName: string = '';
-    myModal: any;
+    searchName: string = ''
+    searchIngredient: string = ''
 
     recipes: Recipe[] = [];
+    filteredRecipes: Recipe[] = []
     shoppinglists$!: Observable<ReadonlyArray<Shoppinglist>>;
 
     constructor(private store: Store<AppState>) {
-        this.shoppinglists$ = this.store.select(selectShoppinglists)
     }
 
     ngOnInit(): void {
         this.recipeService.getAllRecipes().subscribe(recipes => {
             this.recipes = recipes;
+            this.filteredRecipes = recipes;
         });
+
+        this.shoppinglists$ = this.store.select(selectShoppinglists)
     }
 
     addToShoppinglist(shoppinglist: Shoppinglist, recipe: Recipe): void {
@@ -64,5 +68,18 @@ export class RecipeTableComponent {
         console.log(updatedShoppinglist)
 
         this.store.dispatch(ShoppinglistActions.updateShoppinglist({ updatedShoppinglist: updatedShoppinglist }))
+    }
+
+    filterRecipes(){
+        this.filteredRecipes = this.recipes.filter(x => x.name.toLowerCase().includes(this.searchName.toLowerCase()))
+
+        this.filteredRecipes = this.filteredRecipes.filter(x => {
+            const filteredIngredients = x.recipeIngredients.filter(y => y.ingredient.name.toLowerCase().includes(this.searchIngredient.toLowerCase()));
+            if(filteredIngredients.length > 0){
+                return true;
+            }
+            
+            return false;
+        })
     }
 }

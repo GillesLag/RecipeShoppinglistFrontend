@@ -1,3 +1,15 @@
+
+<div class="d-flex justify-content-center pb-4">
+    <div class="row">
+        <div class="col autocomplete-container">
+            <input type="text" class="form-control" (keyup)="filterRecipes()" [(ngModel)]="searchName" placeholder="search on name" aria-label="Ingredient name"/>
+        </div>
+        <div class="col autocomplete-container">
+            <input type="text" class="form-control" (keyup)="filterRecipes()" [(ngModel)]="searchIngredient" placeholder="search on ingredients" aria-label="Ingredient name"/>
+        </div>
+    </div>
+</div>
+
 <table class="table table-extra">
     <thead>
         <tr>
@@ -7,7 +19,7 @@
         </tr>
     </thead>
     <tbody>
-        <tr *ngFor="let recipe of recipes">
+        <tr *ngFor="let recipe of filteredRecipes">
             <td>
                 <app-recipe-table-item [recipe]="recipe" [recipeIngredients]="recipe.recipeIngredients" />
             </td>
