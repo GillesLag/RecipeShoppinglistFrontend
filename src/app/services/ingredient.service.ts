@@ -17,4 +17,8 @@ export class IngredientService {
     getAll(): Observable<Ingredient[]> {
         return this.httpClient.get<Ingredient[]>(`${this.baseUrl}/GetAll`);
     }
+
+    createIngredient(name: string): Observable<Ingredient> {
+        return this.httpClient.post<Ingredient>(`${this.baseUrl}/Create`, {name});
+    }
 }
